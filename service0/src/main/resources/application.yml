@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: service0
+  activemq:
+    broker-url:
+#  datasource:
+#      driver-class-name: oracle.jdbc.driver.OracleDriver
+#      url: jdbc:oracle:thin:@120.76.132.101:1521:orcl2
+#      username: ZZQ
+#      password: ZZQZZQ
+#    jpa:
+#      hibernate:
+#        ddl-auto: update
+#      show-sql: true
+#    jackson:
+#      serialization: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://120.76.132.101:8080/eureka/  #注册中心地址
+  instance:
+    hostname: zzq
+    instance-id: http://172.31.28.1:8081
+server:
+  port: 8081
+
+
+
+spring.datasource.driver-class-name: oracle.jdbc.driver.OracleDriver
+spring.datasource.url: jdbc:oracle:thin:@120.76.132.101:1521:orcl2
+spring.datasource.username: ZZQ
+spring.datasource.password: ZZQZZQ
+spring.jpa.show-sql: true
