@@ -56,7 +56,7 @@ public class CnChargeFlow {
 		//TODO 使用高匿代理  请求
 //		HttpHost target  = new HttpHost("39.137.69.9:80", 80,  "HTTP");
 //		HttpHost target  = new HttpHost("39.137.69.9:80", 80);
-		httpUtil.setTarget(ProxyUtil.getHostFromAliYun());
+//		httpUtil.setTarget(ProxyUtil.getHostFromAliYun());
 		httpUtil.setTarget(ProxyUtil.getHostFromDaiLiJingLing());
 		//登录
 		String login_res = httpUtil.doPost("http://app.cainiaolc.com/user/login", para, "utf-8");
