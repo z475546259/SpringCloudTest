@@ -111,4 +111,5 @@ public class Charge {
         result.put("MSG","query and update charge statu successfully");
         return JSONObject.toJSONString(result);
     }
+
 }
