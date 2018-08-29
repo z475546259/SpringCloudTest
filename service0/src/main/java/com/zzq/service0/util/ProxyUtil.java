@@ -77,7 +77,8 @@ public class ProxyUtil {
         String proxyStr = null;
         try {
             httpClient = new SSLClient();
-            HttpGet httpGet = new HttpGet("http://ip.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson=");
+//            HttpGet httpGet = new HttpGet("http://ip.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson=");
+            HttpGet httpGet = new HttpGet("http://ip.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=0&fa=0&fetch_key=&qty=1&time=100&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson=");
             HttpResponse response;
             response = httpClient.execute(httpGet);
 
