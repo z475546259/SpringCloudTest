@@ -26,7 +26,7 @@ import java.util.zip.GZIPInputStream;
 public class HttpClientUtil {
     private HttpClient httpClient = null;
     public List<String> cookies =new ArrayList<String>();
-    HttpHost target  = new HttpHost("127.0.0.1", 8888,  "http");
+    HttpHost target ;// = new HttpHost("127.0.0.1", 8888,  "http");
     public HttpHost getTarget() {
         return target;
     }
@@ -81,7 +81,7 @@ public class HttpClientUtil {
 //            connection.setRequestProperty("accept-secret","1ab3a18b89fe064caad6fc4138a2adfdef48a898ecfa078c46b9c2bfd0202d0d");
             httpPost.addHeader("accept-time",sdf.format(date));
             httpPost.addHeader("cnos","android");
-            httpPost.addHeader("cnpid","cainiaolc");
+            httpPost.addHeader("cnpid","xiaomi");
             httpPost.addHeader("cnuser",cnUserID);
             httpPost.addHeader("cnver","V1");
             httpPost.addHeader("cnversion","1.1.8");
@@ -208,7 +208,7 @@ public class HttpClientUtil {
             httpGet.addHeader("cnos","android");
             httpGet.addHeader("cnpid","xiaomi");
             httpGet.addHeader("cnuser",cnUserID);
-            httpGet.addHeader("cnver","V2");
+            httpGet.addHeader("cnver","V1");
             httpGet.addHeader("cnversion","1.1.8");
             httpGet.addHeader("deviceid",deviceID);
             httpGet.addHeader("Connection","Keep-Alive");
