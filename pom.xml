@@ -11,6 +11,8 @@
     <modules>
         <module>service0</module>
         <module>registry</module>
+        <module>configcenter</module>
+        <module>configclient</module>
     </modules>
 
 
