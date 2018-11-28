@@ -1,30 +1,25 @@
 package com.zzq.service0.biz;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zzq.service0.entities.cnUser;
-import com.zzq.service0.enums.ChargeValueEnum;
 import com.zzq.service0.util.HttpClientUtil;
-import com.zzq.service0.util.OperateOracle;
-import com.zzq.service0.util.ProxyUtil;
 import com.zzq.service0.util.Utils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
-public class CnChargeStatuFlow {
+public class CnRecommendFlow {
 
-	public CnChargeStatuFlow() {
+	public CnRecommendFlow() {
 
 	}
 
 	public static void main(String[] args) {
-		CnChargeStatuFlow cnChargeStatuFlow = new CnChargeStatuFlow();
-		cnUser cnUser = new cnUser();
-		cnUser.setTelephone("18745944602");
 
-		cnChargeStatuFlow.autoDo(cnUser);
 	}
-	public Integer autoDo(cnUser user) {
+	public String autoDo(cnUser user,String code,String yzm) {
 		if(user.getDeviceID()==null){
 			user.setDeviceID(Utils.randomHexString(16));
 		}
@@ -77,16 +72,11 @@ public class CnChargeStatuFlow {
 		String tag_history = httpUtil.doGet("http://app.cainiaolc.com/user/tagHistory", "utf-8");
 //		System.out.println(tag_history);
 
-		//检查充值状态
-		String chargeStatu = httpUtil.doGet("http://app.cainiaolc.com/coin/record?page=0&perpage=1", "utf-8");
-		JSONObject chargeStatuJson = JSONObject.parseObject(chargeStatu);
-		if(chargeStatuJson.getJSONArray("Data").getJSONObject(0).getInteger("status")==0){
-			System.out.println("充值处理中...");
-			return 0;
-		}else {
-			System.out.println("充值已处理");
-			return 1;
-		}
+		//推荐
+		String recommendResult = httpUtil.doGet("http://app.cainiaolc.com/coin/bindCode?code="+code+"&checkcode="+yzm, "utf-8");
+		JSONObject recommendResultJson= JSONObject.parseObject(recommendResult);
+        System.out.println("推荐结果=="+recommendResult);
+		return recommendResultJson.getString("Msg");
 
 	}
 
@@ -97,7 +87,7 @@ public class CnChargeStatuFlow {
 	//双重校验锁获取一个Random单例
 	public static Random getRandom() {
 		if(random==null){
-			synchronized (CnChargeStatuFlow.class) {
+			synchronized (CnRecommendFlow.class) {
 				if(random==null){
 					random =new Random();
 				}

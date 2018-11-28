@@ -4,15 +4,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.zzq.service0.biz.AppAutoDoResultSecification;
 import com.zzq.service0.biz.CnChargeFlow;
 import com.zzq.service0.biz.CnChargeStatuFlow;
+import com.zzq.service0.biz.CnRecommendFlow;
 import com.zzq.service0.dto.AppAutoDoResultRepository;
 import com.zzq.service0.entities.AppAutoDoResult;
 import com.zzq.service0.entities.cnUser;
 import com.zzq.service0.util.OperateOracle;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,8 +84,18 @@ public class Charge {
     }
 
     @PostMapping("/check")
-    public String getChageAccount2(){
-        return "== success == ";
+    public Map<String,String> getChageAccount2(HttpServletRequest request){
+        String param = request.getParameter("param");
+        String sign = request.getParameter("sign");
+        Map<String,String> result = new HashMap<>();
+        result.put("param",param);
+        result.put("sign",sign);
+        String md5Sign = DigestUtils.md5Hex(param+"776829b92dd4da15f503fdc5011ae31b");
+
+        System.out.println("返回sign=="+sign);
+        System.out.println("加密sign=="+md5Sign);
+        System.out.println("对比结果=="+sign.equals(md5Sign));
+        return result;
     }
     @GetMapping("/statu/{id}/{tel}")
     public String queryChargeStatu(@PathVariable Integer id,@PathVariable String tel){
@@ -111,4 +124,29 @@ public class Charge {
         result.put("MSG","query and update charge statu successfully");
         return JSONObject.toJSONString(result);
     }
+    @GetMapping(value = "/recommend/{tel}/{code}/{yzm}",produces = "text/html;charset=utf-8")
+    public String recommend(@PathVariable String tel,@PathVariable String code,@PathVariable String yzm){
+        AppAutoDoResult appAutoDoResult = new AppAutoDoResult();
+        appAutoDoResult.setAPP_USERTEL(tel);
+        appAutoDoResult.setAPP_NAME("菜鸟理财");
+        Example<AppAutoDoResult> example = Example.of(appAutoDoResult);
+        appAutoDoResult = appAutoDoResultRepository.findOne(example);
+
+        cnUser cnUser = new cnUser();
+        cnUser.setTelephone(appAutoDoResult.getAPP_USERTEL());
+        cnUser.setPassword(appAutoDoResult.getAPP_USERPASSWORD());
+        cnUser.setDeviceID(appAutoDoResult.getDEVICE_ID());
+        cnUser.setCnuserID(appAutoDoResult.getAPP_USERID());
+        cnUser.setUser_agent(appAutoDoResult.getUSER_AGENT());
+        cnUser.setScore(appAutoDoResult.getAPP_USERSCORE());
+        cnUser.setNote(appAutoDoResult.getNOTE());
+        cnUser.setChargeMoney(appAutoDoResult.getCHARGE_MONEY());
+        cnUser.setChargeTel(tel);
+
+        CnRecommendFlow cnRecommendFlow = new CnRecommendFlow();
+        String result = cnRecommendFlow.autoDo(cnUser,code,yzm);
+
+        return result;
+    }
+
 }

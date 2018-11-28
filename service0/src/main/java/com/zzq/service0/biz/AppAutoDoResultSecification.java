@@ -32,7 +32,8 @@ public class AppAutoDoResultSecification implements Specification<AppAutoDoResul
         Path<String> notePath = root.get("NOTE");
         if("".equalsIgnoreCase(tel)){
             criteriaQuery.where(criteriaBuilder.greaterThanOrEqualTo(appScorePath,this.chargeValue),criteriaBuilder.equal(appNamePath,"菜鸟理财")
-                    ,criteriaBuilder.notLike(app_usertel,"17%"),criteriaBuilder.equal(isDelPath,0));
+                    ,criteriaBuilder.notLike(app_usertel,"17%"),criteriaBuilder.equal(isDelPath,0)
+                    ,criteriaBuilder.or(criteriaBuilder.lessThan(criteriaBuilder.length(notePath),25),criteriaBuilder.isNull(notePath)));
         }else {
             criteriaQuery.where(criteriaBuilder.greaterThanOrEqualTo(appScorePath,this.chargeValue),criteriaBuilder.equal(appNamePath,"菜鸟理财")
                     ,criteriaBuilder.notLike(app_usertel,"17%"),criteriaBuilder.equal(isDelPath,0)

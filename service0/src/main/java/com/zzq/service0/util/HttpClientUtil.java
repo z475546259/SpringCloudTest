@@ -26,7 +26,7 @@ import java.util.zip.GZIPInputStream;
 public class HttpClientUtil {
     private HttpClient httpClient = null;
     public List<String> cookies =new ArrayList<String>();
-    HttpHost target ;// = new HttpHost("192.168.1.4", 8888,  "http");
+    HttpHost target ;// = new HttpHost("127.0.0.1", 8888,  "http");
     public HttpHost getTarget() {
         return target;
     }
@@ -81,7 +81,7 @@ public class HttpClientUtil {
 //            connection.setRequestProperty("accept-secret","1ab3a18b89fe064caad6fc4138a2adfdef48a898ecfa078c46b9c2bfd0202d0d");
             httpPost.addHeader("accept-time",sdf.format(date));
             httpPost.addHeader("cnos","android");
-            httpPost.addHeader("cnpid","cainiaolc");
+            httpPost.addHeader("cnpid","xiaomi");
             httpPost.addHeader("cnuser",cnUserID);
             httpPost.addHeader("cnver","V1");
             httpPost.addHeader("cnversion","1.1.8");
@@ -197,16 +197,16 @@ public class HttpClientUtil {
             httpGet = new HttpGet(url);
 
             // 设置通用的请求属性
-//    	  httpGet.addHeader("accept","application/json");
-//    	  httpGet.addHeader("Accept-Encoding","gzip");
+    	  httpGet.addHeader("accept","application/json");
+    	  httpGet.addHeader("Accept-Encoding","gzip");
             httpGet.addHeader("user-agent",user_agent);
 //    	  httpGet.addHeader("Content-Length","95");
-//    	  httpGet.addHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-            httpGet.addHeader("accept-secret","8eb478d177537ade7587bfafd52b1c9299e46c0a3881877469e6a5276e2a68d2");
+    	  httpGet.addHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+            httpGet.addHeader("accept-secret","b0ef1879a8b6fd159df4aa407fff3f488790ad875cdcf39434c11dfb38e4687f");
 //    	  accept-secret: 60f1aef485e6944df9954893f5d23f3cf830e834ac0dd95de580561c17e3dbaf
             httpGet.addHeader("accept-time",sdf.format(date));
             httpGet.addHeader("cnos","android");
-            httpGet.addHeader("cnpid","cainiaolc");
+            httpGet.addHeader("cnpid","xiaomi");
             httpGet.addHeader("cnuser",cnUserID);
             httpGet.addHeader("cnver","V1");
             httpGet.addHeader("cnversion","1.1.8");

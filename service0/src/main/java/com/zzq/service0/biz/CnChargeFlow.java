@@ -72,11 +72,12 @@ public class CnChargeFlow {
 		String appOpen_res = httpUtil.doPost("http://app.cainiaolc.com/log/appOpen", para, "utf-8");
 		System.out.println("打开app："+appOpen_res);
 		//查看菜点
-		String coin_userSumary = httpUtil.doGet("http://app.cainiaolc.com/coin/userSummary", "utf-8");
-		System.out.println("金币："+coin_userSumary);
-		Integer score =  JSONObject.parseObject(coin_userSumary).getJSONObject("Data").getInteger("score");
-		user.setScore(score);
-		//绑定token
+//		String coin_userSumary = httpUtil.doGet("http://app.cainiaolc.com/coin/userSummary", "utf-8");
+//		System.out.println("金币："+coin_userSumary);
+//		Integer score =  JSONObject.parseObject(coin_userSumary).getJSONObject("Data").getInteger("score");
+//		user.setScore(score);
+		Integer score = user.getScore();
+				//绑定token
 		para.clear();
 		para.put("os", "android");
 		para.put("token", "");
@@ -85,13 +86,13 @@ public class CnChargeFlow {
 		String bindToken = httpUtil.doPost("http://app.cainiaolc.com/account/bindToken", para, "utf-8");
 		System.out.println("绑定token："+bindToken);
 		//获取用户信息
-		String user_info = httpUtil.doGet("http://app.cainiaolc.com/user/info", "utf-8");
-		JSONObject userJson = JSONObject.parseObject(user_info);
-		String codeMine = userJson.getJSONObject("Data").getString("codeMine");
-		user.setCodeMine(codeMine);
-		System.out.println(user.getTelephone()+"的用户信息"+user_info);
-		//打标历史
-		String tag_history = httpUtil.doGet("http://app.cainiaolc.com/user/tagHistory", "utf-8");
+//		String user_info = httpUtil.doGet("http://app.cainiaolc.com/user/info", "utf-8");
+//		JSONObject userJson = JSONObject.parseObject(user_info);
+//		String codeMine = userJson.getJSONObject("Data").getString("codeMine");
+//		user.setCodeMine(codeMine);
+//		System.out.println(user.getTelephone()+"的用户信息"+user_info);
+//		//打标历史
+//		String tag_history = httpUtil.doGet("http://app.cainiaolc.com/user/tagHistory", "utf-8");
 		//充值
 		para.clear();
 		//50话费id=9120   20话费id=208
@@ -116,12 +117,13 @@ public class CnChargeFlow {
 //			System.out.println("充值已处理");
 //		}
 
-		String replayCommentresult = httpUtil.doGet("http://app.cainiaolc.com/coin/userSummary", "utf-8");
-		JSONObject finaJson = JSONObject.parseObject(replayCommentresult);
-		score = finaJson.getJSONObject("Data").getInteger("score");
-		System.out.println("流程完毕后最后的结果==="+score);
-		user.setEarn(score-user.getScore());
-		user.setScore(score);
+//		String replayCommentresult = httpUtil.doGet("http://app.cainiaolc.com/coin/userSummary", "utf-8");
+//		JSONObject finaJson = JSONObject.parseObject(replayCommentresult);
+//		score = finaJson.getJSONObject("Data").getInteger("score");
+
+		System.out.println("用"+user.getTelephone()+"给"+this.chargeTel+"充值结束，最后的结果==="+(score-6200));
+//		user.setEarn(score-user.getScore());
+		user.setScore(score-6200);
 		OperateOracle operateOracle = new OperateOracle();
 //		operateOracle.updateAppData("菜鸟理财",user.getUser_name(),user.getTelephone(),"",user.getPassword(),score,user.getCnuserID());
 		operateOracle.updateAppData("菜鸟理财",user);
