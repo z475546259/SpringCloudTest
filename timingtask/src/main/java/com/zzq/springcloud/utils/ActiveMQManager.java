@@ -49,8 +49,11 @@ public class ActiveMQManager {
         MessageConsumer consumer = session.createConsumer(queue);
 
         ActiveMQObjectMessage activeMQObjectMessage  = (ActiveMQObjectMessage)consumer.receive(1000);
-        cnUser cnUser = (cnUser) activeMQObjectMessage.getObject();
-        System.out.println(cnUser.toString());
+        while (activeMQObjectMessage!=null){
+            cnUser cnUser = (cnUser) activeMQObjectMessage.getObject();
+            RecordToFile.record(new String[]{cnUser.getTelephone()+"没有被消费"}, "info-log.txt",true);
+            activeMQObjectMessage  = (ActiveMQObjectMessage)consumer.receive(1000);
+        }
         //9、关闭资源
         consumer.close();
         session.close();
