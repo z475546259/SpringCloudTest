@@ -11,6 +11,7 @@ import com.zzq.service0.entities.cnUser;
 import com.zzq.service0.util.OperateOracle;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.*;
@@ -97,6 +98,14 @@ public class Charge {
         System.out.println("对比结果=="+sign.equals(md5Sign));
         return result;
     }
+    @Value("${ip}")
+    private String ip;
+    @Value("${port}")
+    private String port;
+    @GetMapping("/test")
+    public String test(HttpServletRequest request){
+        return "成功了"+ ip + " : " + port;
+    }
     @GetMapping("/statu/{id}/{tel}")
     public String queryChargeStatu(@PathVariable Integer id,@PathVariable String tel){
         AppAutoDoResult appAutoDoResult = new AppAutoDoResult();
@@ -147,6 +156,16 @@ public class Charge {
         String result = cnRecommendFlow.autoDo(cnUser,code,yzm);
 
         return result;
+    }
+
+    @RequestMapping(value = "/referer", method = RequestMethod.GET)
+    public String login() {
+//        logger.info("=====");
+        return "referer";
+    }
+    @RequestMapping(value = "/index")
+    public String getIndex() {
+        return "index";
     }
 
 }

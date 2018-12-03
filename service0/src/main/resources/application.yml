@@ -1,33 +1,42 @@
-spring:
-  application:
-    name: ReCharge
-  activemq:
-    broker-url:
-#  datasource:
-#      driver-class-name: oracle.jdbc.driver.OracleDriver
-#      url: jdbc:oracle:thin:@120.76.132.101:1521:orcl2
-#      username: ZZQ
-#      password: ZZQZZQ
-#    jpa:
-#      hibernate:
-#        ddl-auto: update
-#      show-sql: true
-#    jackson:
-#      serialization: true
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://120.76.132.101:8080/eureka/  #注册中心地址
-  instance:
-    hostname: 120.76.132.101
-    instance-id: http://172.31.28.1:8081
+#访问根路径，默认情况下IntelliJ IDEA是没有访问根路径的，如localhost:8080/请求路径
 server:
-  port: 8081
+  contextPath: /html
 
-
-
-spring.datasource.driver-class-name: oracle.jdbc.driver.OracleDriver
-spring.datasource.url: jdbc:oracle:thin:@120.76.132.101:1521:orcl2
-spring.datasource.username: ZZQ
-spring.datasource.password: ZZQZZQ
-spring.jpa.show-sql: true
+###FREEMARKER (FreeMarkerAutoConfiguration)
+spring:
+#  mvc:
+#    static-path-pattern: /static/**
+#  resources:
+#      static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+#  freemarker:
+#    allow-request-override: false
+#    cache: true
+#    check-template-location: true
+#    charset: UTF-8
+#    content-type: text/html
+#    expose-request-attributes: true
+#    expose-session-attributes: false
+#    expose-spring-macro-helpers: false
+#    #spring.freemarker.prefix=
+#    request-context-attribute: rc
+#    #spring.freemarker.settings.*=
+#    #模板加载后缀
+#    suffix: .html
+#    #模板加载路径
+#    template-loader-path: classpath:/views/
+#    非templates目录是需要指定模板路径的，thymeleaf默认的前缀是templat
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    content-type: text/html
+    mode: LEGACYHTML5
+    servlet:
+        content-type: text/html
+        prefix: classpath:/templates
+        suffix: .html
+  resources:
+      chain:
+        strategy:
+          content:
+            enabled: true
+            paths: /**

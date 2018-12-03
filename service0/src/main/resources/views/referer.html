@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<meta http-equiv="Expires" content="0" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-control" content="no-cache" />
+<meta http-equiv="Cache" content="no-cache" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>临时推荐冲货源</title>
+<link href="../js/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+<link href="../js/themes/icon.css" rel="stylesheet" type="text/css" />
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="/css/bootstrap-table-1.11.1.min.css" rel="stylesheet" type="text/css" />
+<link href="/css/bootstrap-editable.css" rel="stylesheet" type="text/css" />
+<script src="/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="/js/bootstrap.js" type="text/javascript" ></script>
+<script src="/js/bootstrap-table-1.11.1.min.js" type="text/javascript" ></script>
+<script src="/js/bootstrap-editable.js" type="text/javascript" ></script>
+<script src="/js/bootstrap-table-editable.js" type="text/javascript" ></script>
+<style>
+	body{
+	font-size:24px;
+	}
+#bg{ 
+	display: none; 
+	position: absolute; 
+	top: 0%; 
+	left: 0%; 
+	width: 100%; 
+	height: 100%; 
+	background-color: black; 
+	z-index:1001; 
+	-moz-opacity: 0.3; 
+	opacity:.30; 
+	filter: alpha(opacity=30);
+}
+ 
+#show{ 
+	display: none; 
+	position: absolute; 
+	top: 25%; 
+	left: 12%; 
+	width: 80%; 
+	height: auto; 
+	padding: 8px;
+	border: 8px solid #E8E9F7; 
+	background-color: white; 
+	z-index:1002; 
+	overflow: auto;
+}
+</style>
+</head>
+
+<body>
+    <div class="div1">
+        	<p>手机充值及记录</p>
+    </div>
+    <select id="statu" onchange="loadData()">
+    	<option value=1>预售货</option>
+    	<option value=2>未推荐</option>
+    	<option value=3>库存现货</option>
+    </select>
+    <br/>
+    <select id="faceValue">
+    	<option value=50>50元</option>
+    	<option value=20>20元</option>
+    </select>
+    <table id="chargeList" ></table>
+	<script>
+		var rows;
+		
+	$('#chargeList').bootstrapTable({  
+        editable:true,//开启编辑模式  
+        clickToSelect: true,
+        cache : false,
+        columns: [  
+        	{field:"ID",title:"id",align:"center",edit:{required:true,type:'text' }},
+        	{field:"OP",title:"操作",align:"center",
+        		formatter: function (value, row, index) {
+                    return '<button class="btn btn-primary btn-sm" onclick="addScore(\'' + row.APP_USERTEL + '\')">邀请成功</button><button class="btn btn-primary btn-sm" onclick="addScore(\''+ row.APP_USERTEL +'\')">被邀请成功</button>';
+        		}
+        	},
+            {field:"APP_USERTEL",title:"手机号",align:"center",edit:{required:true,type:'text' }},  
+            {field:"APP_USERSCORE",title:"当前积分",align:"center",edit:{type:'text' }},  
+            {field:"CODE_MINE",title:"邀请码",align:"center",edit:{type:'text' }}, 
+            {field:"PASSWORD",title:"密码",align:"center"},
+            {field:"NOTE",title:"备注",align:"center",edit:{type:'text' }},
+            {field:"REFERRER",title:"推荐人",align:"center",edit:{type:'text' }}
+        ],
+        onEditableHidden: function(field, row, $el, reason) { // 当编辑状态被隐藏时触发
+            if(reason === 'save') {
+                var $td = $el.closest('tr').children();
+                $td.eq(-1).html((row.price*row.number).toFixed(2));
+                $el.closest('tr').next().find('.editable').editable('show'); //编辑状态向下一行移动
+            } else if(reason === 'nochange') {
+                $el.closest('tr').next().find('.editable').editable('show');
+            }
+        },
+        onEditableSave: function (field, row, oldValue, $el) {
+              $("#chargeList").bootstrapTable('updateRow', {index: row.rowId, row: row});
+              $.ajax({
+      			url: "/Service/data",
+      			cache: false,
+      			type:"post",
+      			data: {
+      				proc: "handle_charge_order",
+      				para:"['"+row.ID+"','"+row.TEL+"','"+row.RECHARGE+"','"+row.CHARGED+"','"+row.RECEIVE+"','"+row.DISCOUNT+"','"+row.NOTE+"','"+row.REFERRER+"']"
+      			},
+      			dataType: "json",
+      			async:false,
+      			success: function(data) {
+      				alert(data[0].MSG)
+      			}
+      		});
+        }
+    });
+	function loadData(){
+		var statu = $("#statu").val();
+		$.ajax({
+			url: "/Service/data",
+			cache: false,
+			type:"post",
+			data: {
+				proc: "get_data",
+				para:"['get_chargeGoods','" + statu+ "']"
+			},
+			dataType: "json",
+			async:false,
+			success: function(data) {
+				rows = data;
+			}
+		});
+		$('#chargeList').bootstrapTable('load',rows);
+	}
+	function addScore(tel){
+		$.ajax({
+			url: "/Service/data",
+			cache: false,
+			type:"post",
+			data: {
+				proc: "get_data",
+				para:"['add_refererScore','" + tel+ "']"
+			},
+			dataType: "json",
+			async:false,
+			success: function(data) {
+				loadData();
+			}
+		});
+	}
+		
+		$(function(){
+			loadData();
+		})
+	</script>
+    </div>
+</body>
+</html>
+
+
