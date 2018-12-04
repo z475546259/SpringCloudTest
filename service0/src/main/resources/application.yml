@@ -6,8 +6,8 @@
 spring:
 #  mvc:
 #    static-path-pattern: /static/**
-#  resources:
-#      static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+  resources:
+      static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
 #  freemarker:
 #    allow-request-override: false
 #    cache: true
@@ -40,5 +40,5 @@ spring:
 #          content:
 #            enabled: true
 #            paths: /**
-  mvc:
-    static-path-pattern: /resources/**
+#  mvc:
+#    static-path-pattern: /resources/**
