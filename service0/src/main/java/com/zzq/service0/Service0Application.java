@@ -13,8 +13,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 * 
 */
 @SpringBootApplication(scanBasePackages = "com.zzq.service0")
-@EnableEurekaClient
-@EnableWebMvc
+//@EnableEurekaClient
+//@EnableWebMvc
 public class Service0Application {
 
     public static void main(String[] args) {
