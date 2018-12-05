@@ -1,5 +1,6 @@
 package com.zzq.service0.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zzq.service0.biz.AppAutoDoResultSecification;
 import com.zzq.service0.biz.CnChargeFlow;
@@ -7,7 +8,9 @@ import com.zzq.service0.biz.CnChargeStatuFlow;
 import com.zzq.service0.biz.CnRecommendFlow;
 import com.zzq.service0.dto.AppAutoDoResultRepository;
 import com.zzq.service0.entities.AppAutoDoResult;
+import com.zzq.service0.entities.AppChargeOrder;
 import com.zzq.service0.entities.cnUser;
+import com.zzq.service0.service.AppChargeOrderService;
 import com.zzq.service0.util.OperateOracle;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,6 +169,19 @@ public class Charge {
     @RequestMapping(value = "/index")
     public String getIndex() {
         return "index";
+    }
+    @RequestMapping(method = RequestMethod.POST,value = "/list/｛statu｝")
+    public JSONArray getList(@PathVariable String statu){
+        JSONArray array = new JSONArray();
+
+        return array;
+    }
+    @Autowired
+    AppChargeOrderService appChargeOrderService;
+    @RequestMapping(method = {RequestMethod.GET,RequestMethod.PATCH},value = "/list/｛statu｝")
+    public List<AppChargeOrder> listChargeOrder(@PathVariable int statu){
+
+        return appChargeOrderService.listOrder(statu);
     }
 
 }
