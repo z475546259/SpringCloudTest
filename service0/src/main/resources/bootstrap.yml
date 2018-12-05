@@ -26,12 +26,12 @@ spring:
 
 
 
-#spring.datasource.driver-class-name: oracle.jdbc.driver.OracleDriver
-spring.datasource.driver-class-name: com.mysql.cj.jdbc.Driver
-#spring.datasource.url: jdbc:oracle:thin:@120.76.132.101:1521:orcl2
-spring.datasource.url: jdbc:mysql://120.77.202.205:3306/zzq?useSSL=false
-#spring.datasource.username: ZZQ
-spring.datasource.username: writer
-#spring.datasource.password: ZZQZZQ
-spring.datasource.password: zzqwriter
-spring.jpa.show-sql: true
+##spring.datasource.driver-class-name: oracle.jdbc.driver.OracleDriver
+#spring.datasource.driver-class-name: com.mysql.cj.jdbc.Driver
+##spring.datasource.url: jdbc:oracle:thin:@120.76.132.101:1521:orcl2
+#spring.datasource.url: jdbc:mysql://120.77.202.205:3306/zzq?useSSL=false
+##spring.datasource.username: ZZQ
+#spring.datasource.username: writer
+##spring.datasource.password: ZZQZZQ
+#spring.datasource.password: zzqwriter
+#spring.jpa.show-sql: true
