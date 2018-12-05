@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzq.service0.mapper.UserMapper">
+
+
+	<select id="findUser" parameterType="integer"
+		resultType="com.zzq.service0.entities.User">
+		select *
+		from user where id = #{id}
+	</select>
+
+	<insert id="saveUser" parameterType="com.zzq.service0.entities.User">
+		insert into user(uname,pwd)
+		values(#{uname},#{pwd})
+	</insert>
+
+	<delete id="deleteUser" parameterType="integer">
+		delete from user where id
+		= #{id}
+	</delete>
+
+</mapper>

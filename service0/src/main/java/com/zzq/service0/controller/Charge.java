@@ -7,10 +7,9 @@ import com.zzq.service0.biz.CnChargeFlow;
 import com.zzq.service0.biz.CnChargeStatuFlow;
 import com.zzq.service0.biz.CnRecommendFlow;
 import com.zzq.service0.dto.AppAutoDoResultRepository;
-import com.zzq.service0.entities.AppAutoDoResult;
-import com.zzq.service0.entities.AppChargeOrder;
-import com.zzq.service0.entities.cnUser;
-import com.zzq.service0.service.AppChargeOrderService;
+import com.zzq.service0.entities.*;
+import com.zzq.service0.service.OrderService;
+import com.zzq.service0.service.UserService;
 import com.zzq.service0.util.OperateOracle;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,7 @@ import java.util.Map;
 public class Charge {
     @Autowired
     AppAutoDoResultRepository appAutoDoResultRepository;
+
     @GetMapping("/{id}/{tel}/{value}")
     public String getChageAccount( @PathVariable int id,@PathVariable String tel, @PathVariable int value){
         Map<String,String> result = new HashMap<>();
@@ -176,12 +176,21 @@ public class Charge {
 
         return array;
     }
-    @Autowired
-    AppChargeOrderService appChargeOrderService;
-    @RequestMapping(method = {RequestMethod.GET,RequestMethod.PATCH},value = "/list/｛statu｝")
-    public List<AppChargeOrder> listChargeOrder(@PathVariable int statu){
 
-        return appChargeOrderService.listOrder(statu);
+    @Autowired
+    UserService userService;
+
+    @RequestMapping(value = "/query/{id}")
+    public User findByIdUser(@PathVariable("id") Integer id) {
+        User us = userService.findUser(id);
+        return us;
+    }
+
+    @Autowired
+    OrderService orderService;
+    @RequestMapping(method = RequestMethod.GET,value = "/list/{statu}")
+    public List<Order> getOrderByChargeStatu(@PathVariable Integer statu){
+        return orderService.listOrder(statu);
     }
 
 }

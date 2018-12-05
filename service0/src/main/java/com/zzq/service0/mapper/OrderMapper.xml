@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzq.service0.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.zzq.service0.entities.Order">
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="RECHARGE" jdbcType="DECIMAL" property="recharge" />
+    <result column="CHARGED" jdbcType="DECIMAL" property="charged" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="RECEIVE" jdbcType="DECIMAL" property="receive" />
+    <result column="DISCOUNT" jdbcType="DECIMAL" property="discount" />
+    <result column="REFERRER" jdbcType="VARCHAR" property="referrer" />
+    <result column="LAST_CHARGE_TIME" jdbcType="TIMESTAMP" property="lastChargeTime" />
+    <result column="LAST_CHARGE_ACCOUNT" jdbcType="VARCHAR" property="lastChargeAccount" />
+    <result column="LAST_CHARGE_PASS" jdbcType="VARCHAR" property="lastChargePass" />
+    <result column="LAST_CHARGE_STATU" jdbcType="DECIMAL" property="lastChargeStatu" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="lastchargeaccount" jdbcType="VARCHAR" property="lastchargeaccount" />
+    <result column="lastchargepass" jdbcType="VARCHAR" property="lastchargepass" />
+    <result column="lastchargestatu" jdbcType="INTEGER" property="lastchargestatu" />
+    <result column="lastchargetime" jdbcType="TIMESTAMP" property="lastchargetime" />
+    <result column="regerer" jdbcType="VARCHAR" property="regerer" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zzq.service0.entities.Order">
+    <result column="NOTE" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, TEL, RECHARGE, CHARGED, CREATE_TIME, UPDATE_TIME, RECEIVE, DISCOUNT, REFERRER, 
+    LAST_CHARGE_TIME, LAST_CHARGE_ACCOUNT, LAST_CHARGE_PASS, LAST_CHARGE_STATU, createtime, 
+    lastchargeaccount, lastchargepass, lastchargestatu, lastchargetime, regerer, updatetime
+  </sql>
+  <sql id="Blob_Column_List">
+    NOTE
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.zzq.service0.entities.OrderExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from app_charge_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.zzq.service0.entities.OrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from app_charge_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.zzq.service0.entities.OrderExample">
+    delete from app_charge_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zzq.service0.entities.Order">
+    insert into app_charge_order (ID, TEL, RECHARGE, 
+      CHARGED, CREATE_TIME, UPDATE_TIME, 
+      RECEIVE, DISCOUNT, REFERRER, 
+      LAST_CHARGE_TIME, LAST_CHARGE_ACCOUNT, LAST_CHARGE_PASS, 
+      LAST_CHARGE_STATU, createtime, lastchargeaccount, 
+      lastchargepass, lastchargestatu, lastchargetime, 
+      regerer, updatetime, NOTE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{tel,jdbcType=VARCHAR}, #{recharge,jdbcType=DECIMAL}, 
+      #{charged,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{receive,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, #{referrer,jdbcType=VARCHAR}, 
+      #{lastChargeTime,jdbcType=TIMESTAMP}, #{lastChargeAccount,jdbcType=VARCHAR}, #{lastChargePass,jdbcType=VARCHAR}, 
+      #{lastChargeStatu,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{lastchargeaccount,jdbcType=VARCHAR}, 
+      #{lastchargepass,jdbcType=VARCHAR}, #{lastchargestatu,jdbcType=INTEGER}, #{lastchargetime,jdbcType=TIMESTAMP}, 
+      #{regerer,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{note,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zzq.service0.entities.Order">
+    insert into app_charge_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="tel != null">
+        TEL,
+      </if>
+      <if test="recharge != null">
+        RECHARGE,
+      </if>
+      <if test="charged != null">
+        CHARGED,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="receive != null">
+        RECEIVE,
+      </if>
+      <if test="discount != null">
+        DISCOUNT,
+      </if>
+      <if test="referrer != null">
+        REFERRER,
+      </if>
+      <if test="lastChargeTime != null">
+        LAST_CHARGE_TIME,
+      </if>
+      <if test="lastChargeAccount != null">
+        LAST_CHARGE_ACCOUNT,
+      </if>
+      <if test="lastChargePass != null">
+        LAST_CHARGE_PASS,
+      </if>
+      <if test="lastChargeStatu != null">
+        LAST_CHARGE_STATU,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="lastchargeaccount != null">
+        lastchargeaccount,
+      </if>
+      <if test="lastchargepass != null">
+        lastchargepass,
+      </if>
+      <if test="lastchargestatu != null">
+        lastchargestatu,
+      </if>
+      <if test="lastchargetime != null">
+        lastchargetime,
+      </if>
+      <if test="regerer != null">
+        regerer,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="recharge != null">
+        #{recharge,jdbcType=DECIMAL},
+      </if>
+      <if test="charged != null">
+        #{charged,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receive != null">
+        #{receive,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="referrer != null">
+        #{referrer,jdbcType=VARCHAR},
+      </if>
+      <if test="lastChargeTime != null">
+        #{lastChargeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastChargeAccount != null">
+        #{lastChargeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="lastChargePass != null">
+        #{lastChargePass,jdbcType=VARCHAR},
+      </if>
+      <if test="lastChargeStatu != null">
+        #{lastChargeStatu,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastchargeaccount != null">
+        #{lastchargeaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="lastchargepass != null">
+        #{lastchargepass,jdbcType=VARCHAR},
+      </if>
+      <if test="lastchargestatu != null">
+        #{lastchargestatu,jdbcType=INTEGER},
+      </if>
+      <if test="lastchargetime != null">
+        #{lastchargetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regerer != null">
+        #{regerer,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zzq.service0.entities.OrderExample" resultType="java.lang.Long">
+    select count(*) from app_charge_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update app_charge_order
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tel != null">
+        TEL = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recharge != null">
+        RECHARGE = #{record.recharge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.charged != null">
+        CHARGED = #{record.charged,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.receive != null">
+        RECEIVE = #{record.receive,jdbcType=DECIMAL},
+      </if>
+      <if test="record.discount != null">
+        DISCOUNT = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.referrer != null">
+        REFERRER = #{record.referrer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastChargeTime != null">
+        LAST_CHARGE_TIME = #{record.lastChargeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastChargeAccount != null">
+        LAST_CHARGE_ACCOUNT = #{record.lastChargeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastChargePass != null">
+        LAST_CHARGE_PASS = #{record.lastChargePass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastChargeStatu != null">
+        LAST_CHARGE_STATU = #{record.lastChargeStatu,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastchargeaccount != null">
+        lastchargeaccount = #{record.lastchargeaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastchargepass != null">
+        lastchargepass = #{record.lastchargepass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastchargestatu != null">
+        lastchargestatu = #{record.lastchargestatu,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastchargetime != null">
+        lastchargetime = #{record.lastchargetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.regerer != null">
+        regerer = #{record.regerer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.note != null">
+        NOTE = #{record.note,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update app_charge_order
+    set ID = #{record.id,jdbcType=DECIMAL},
+      TEL = #{record.tel,jdbcType=VARCHAR},
+      RECHARGE = #{record.recharge,jdbcType=DECIMAL},
+      CHARGED = #{record.charged,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      RECEIVE = #{record.receive,jdbcType=DECIMAL},
+      DISCOUNT = #{record.discount,jdbcType=DECIMAL},
+      REFERRER = #{record.referrer,jdbcType=VARCHAR},
+      LAST_CHARGE_TIME = #{record.lastChargeTime,jdbcType=TIMESTAMP},
+      LAST_CHARGE_ACCOUNT = #{record.lastChargeAccount,jdbcType=VARCHAR},
+      LAST_CHARGE_PASS = #{record.lastChargePass,jdbcType=VARCHAR},
+      LAST_CHARGE_STATU = #{record.lastChargeStatu,jdbcType=DECIMAL},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      lastchargeaccount = #{record.lastchargeaccount,jdbcType=VARCHAR},
+      lastchargepass = #{record.lastchargepass,jdbcType=VARCHAR},
+      lastchargestatu = #{record.lastchargestatu,jdbcType=INTEGER},
+      lastchargetime = #{record.lastchargetime,jdbcType=TIMESTAMP},
+      regerer = #{record.regerer,jdbcType=VARCHAR},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      NOTE = #{record.note,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update app_charge_order
+    set ID = #{record.id,jdbcType=DECIMAL},
+      TEL = #{record.tel,jdbcType=VARCHAR},
+      RECHARGE = #{record.recharge,jdbcType=DECIMAL},
+      CHARGED = #{record.charged,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      RECEIVE = #{record.receive,jdbcType=DECIMAL},
+      DISCOUNT = #{record.discount,jdbcType=DECIMAL},
+      REFERRER = #{record.referrer,jdbcType=VARCHAR},
+      LAST_CHARGE_TIME = #{record.lastChargeTime,jdbcType=TIMESTAMP},
+      LAST_CHARGE_ACCOUNT = #{record.lastChargeAccount,jdbcType=VARCHAR},
+      LAST_CHARGE_PASS = #{record.lastChargePass,jdbcType=VARCHAR},
+      LAST_CHARGE_STATU = #{record.lastChargeStatu,jdbcType=DECIMAL},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      lastchargeaccount = #{record.lastchargeaccount,jdbcType=VARCHAR},
+      lastchargepass = #{record.lastchargepass,jdbcType=VARCHAR},
+      lastchargestatu = #{record.lastchargestatu,jdbcType=INTEGER},
+      lastchargetime = #{record.lastchargetime,jdbcType=TIMESTAMP},
+      regerer = #{record.regerer,jdbcType=VARCHAR},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
