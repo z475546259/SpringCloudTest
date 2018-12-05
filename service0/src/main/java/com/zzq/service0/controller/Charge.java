@@ -8,6 +8,7 @@ import com.zzq.service0.biz.CnChargeStatuFlow;
 import com.zzq.service0.biz.CnRecommendFlow;
 import com.zzq.service0.dto.AppAutoDoResultRepository;
 import com.zzq.service0.entities.*;
+import com.zzq.service0.service.AppResultService;
 import com.zzq.service0.service.OrderService;
 import com.zzq.service0.service.UserService;
 import com.zzq.service0.util.OperateOracle;
@@ -31,8 +32,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/charge")
 public class Charge {
+//    @Autowired
+//    AppAutoDoResultRepository appAutoDoResultRepository;
     @Autowired
-    AppAutoDoResultRepository appAutoDoResultRepository;
+    AppResultService appResultService;
+    @Autowired
+    OrderService orderService;
 
     @GetMapping("/{id}/{tel}/{value}")
     public String getChageAccount( @PathVariable int id,@PathVariable String tel, @PathVariable int value){
@@ -40,32 +45,47 @@ public class Charge {
         try {
             AppAutoDoResult appAutoDoResult = new AppAutoDoResult();
             cnUser cnUser = new cnUser();
-            List<AppAutoDoResult> list1 = appAutoDoResultRepository.findAll(new AppAutoDoResultSecification(tel,value));
-            if(list1.size()<=0){
-                list1 = appAutoDoResultRepository.findAll(new AppAutoDoResultSecification("",value));
-                appAutoDoResult = list1.get(0);
+//            List<AppAutoDoResult> list1 = appAutoDoResultRepository.findAll(new AppAutoDoResultSecification(tel,value));
+//            if(list1.size()<=0){
+//                list1 = appAutoDoResultRepository.findAll(new AppAutoDoResultSecification("",value));
+//                appAutoDoResult = list1.get(0);
+//
+//            }else{
+//                appAutoDoResult = list1.get(0);
+//            }
 
-            }else{
-                appAutoDoResult = list1.get(0);
-            }
 
-            cnUser.setTelephone(appAutoDoResult.getAPP_USERTEL());
-            cnUser.setPassword(appAutoDoResult.getAPP_USERPASSWORD());
-            cnUser.setDeviceID(appAutoDoResult.getDEVICE_ID());
-            cnUser.setCnuserID(appAutoDoResult.getAPP_USERID());
-            cnUser.setUser_agent(appAutoDoResult.getUSER_AGENT());
-            cnUser.setScore(appAutoDoResult.getAPP_USERSCORE());
-            cnUser.setNote(appAutoDoResult.getNOTE());
-            cnUser.setChargeMoney(appAutoDoResult.getCHARGE_MONEY());
+//            cnUser.setTelephone(appAutoDoResult.getAPP_USERTEL());
+//            cnUser.setPassword(appAutoDoResult.getAPP_USERPASSWORD());
+//            cnUser.setDeviceID(appAutoDoResult.getDEVICE_ID());
+//            cnUser.setCnuserID(appAutoDoResult.getAPP_USERID());
+//            cnUser.setUser_agent(appAutoDoResult.getUSER_AGENT());
+//            cnUser.setScore(appAutoDoResult.getAPP_USERSCORE());
+//            cnUser.setNote(appAutoDoResult.getNOTE());
+//            cnUser.setChargeMoney(appAutoDoResult.getCHARGE_MONEY());
+//            cnUser.setChargeTel(tel);
+//            cnUser.setChargeValue(value);
+
+            AppResult appResult = appResultService.findOne(tel,value);
+
+            cnUser.setTelephone(appResult.getAppUsertel());
+            cnUser.setPassword(appResult.getAppUserpassword());
+            cnUser.setDeviceID(appResult.getDeviceId());
+            cnUser.setCnuserID(appResult.getAppUserid());
+            cnUser.setUser_agent(appResult.getUserAgent());
+            cnUser.setScore(appResult.getAppUserscore());
+            cnUser.setNote(appResult.getNote());
+            cnUser.setChargeMoney(appResult.getChargeMoney());
             cnUser.setChargeTel(tel);
             cnUser.setChargeValue(value);
 
             CnChargeFlow cnChargeFlow = new CnChargeFlow(tel,value);
             cnChargeFlow.autoDo(cnUser);
-
+            System.out.println("充值成功更新订单");
             //更新充值订单
-            OperateOracle operateOracle = new OperateOracle();
-            operateOracle.UpdateChargeOrder(id,appAutoDoResult.getAPP_USERTEL(),appAutoDoResult.getPASSWORD(),value);
+            //OperateOracle operateOracle = new OperateOracle();
+            //operateOracle.UpdateChargeOrder(id,appResult.getAppUsertel(),appResult.getPassword(),value);
+            orderService.updateOrder(id,appResult.getAppUsertel(),appResult.getPassword(),value);
         }catch (Exception e){
             result.put("MSG",tel+"== failure == "+value+" beacause:"+e.getMessage());
             return JSONObject.toJSONString(result);
@@ -111,55 +131,59 @@ public class Charge {
     }
     @GetMapping("/statu/{id}/{tel}")
     public String queryChargeStatu(@PathVariable Integer id,@PathVariable String tel){
-        AppAutoDoResult appAutoDoResult = new AppAutoDoResult();
-        appAutoDoResult.setAPP_USERTEL(tel);
-        appAutoDoResult.setAPP_NAME("菜鸟理财");
-        Example<AppAutoDoResult> example = Example.of(appAutoDoResult);
-        appAutoDoResult = appAutoDoResultRepository.findOne(example);
+//        AppAutoDoResult appAutoDoResult = new AppAutoDoResult();
+//        appAutoDoResult.setAPP_USERTEL(tel);
+//        appAutoDoResult.setAPP_NAME("菜鸟理财");
+//        Example<AppAutoDoResult> example = Example.of(appAutoDoResult);
+//        appAutoDoResult = appAutoDoResultRepository.findOne(example);
+        AppResult appResult = appResultService.findOneByAccountTel(tel);
+
         cnUser cnUser = new cnUser();
-        cnUser.setTelephone(appAutoDoResult.getAPP_USERTEL());
-        cnUser.setPassword(appAutoDoResult.getAPP_USERPASSWORD());
-        cnUser.setDeviceID(appAutoDoResult.getDEVICE_ID());
-        cnUser.setCnuserID(appAutoDoResult.getAPP_USERID());
-        cnUser.setUser_agent(appAutoDoResult.getUSER_AGENT());
-        cnUser.setScore(appAutoDoResult.getAPP_USERSCORE());
-        cnUser.setNote(appAutoDoResult.getNOTE());
-        cnUser.setChargeMoney(appAutoDoResult.getCHARGE_MONEY());
+        cnUser.setTelephone(appResult.getAppUsertel());
+        cnUser.setPassword(appResult.getAppUserpassword());
+        cnUser.setDeviceID(appResult.getDeviceId());
+        cnUser.setCnuserID(appResult.getAppUserid());
+        cnUser.setUser_agent(appResult.getUserAgent());
+        cnUser.setScore(appResult.getAppUserscore());
+        cnUser.setNote(appResult.getNote());
+        cnUser.setChargeMoney(appResult.getChargeMoney());
         cnUser.setChargeTel(tel);
         CnChargeStatuFlow cnChargeStatuFlow = new CnChargeStatuFlow();
         Integer statu = cnChargeStatuFlow.autoDo(cnUser);
         if(statu==1){
-            OperateOracle operateOracle = new OperateOracle();
-            operateOracle.UpdateChargeStatu(id);
+            System.out.println("更改状态");
+//            OperateOracle operateOracle = new OperateOracle();
+//            operateOracle.UpdateChargeStatu(id);
+            orderService.updateOrderChargeStatu(id);
         }
         Map<String,String> result = new HashMap<>();
         result.put("MSG","query and update charge statu successfully");
         return JSONObject.toJSONString(result);
     }
-    @GetMapping(value = "/recommend/{tel}/{code}/{yzm}",produces = "text/html;charset=utf-8")
-    public String recommend(@PathVariable String tel,@PathVariable String code,@PathVariable String yzm){
-        AppAutoDoResult appAutoDoResult = new AppAutoDoResult();
-        appAutoDoResult.setAPP_USERTEL(tel);
-        appAutoDoResult.setAPP_NAME("菜鸟理财");
-        Example<AppAutoDoResult> example = Example.of(appAutoDoResult);
-        appAutoDoResult = appAutoDoResultRepository.findOne(example);
-
-        cnUser cnUser = new cnUser();
-        cnUser.setTelephone(appAutoDoResult.getAPP_USERTEL());
-        cnUser.setPassword(appAutoDoResult.getAPP_USERPASSWORD());
-        cnUser.setDeviceID(appAutoDoResult.getDEVICE_ID());
-        cnUser.setCnuserID(appAutoDoResult.getAPP_USERID());
-        cnUser.setUser_agent(appAutoDoResult.getUSER_AGENT());
-        cnUser.setScore(appAutoDoResult.getAPP_USERSCORE());
-        cnUser.setNote(appAutoDoResult.getNOTE());
-        cnUser.setChargeMoney(appAutoDoResult.getCHARGE_MONEY());
-        cnUser.setChargeTel(tel);
-
-        CnRecommendFlow cnRecommendFlow = new CnRecommendFlow();
-        String result = cnRecommendFlow.autoDo(cnUser,code,yzm);
-
-        return result;
-    }
+//    @GetMapping(value = "/recommend/{tel}/{code}/{yzm}",produces = "text/html;charset=utf-8")
+//    public String recommend(@PathVariable String tel,@PathVariable String code,@PathVariable String yzm){
+//        AppAutoDoResult appAutoDoResult = new AppAutoDoResult();
+//        appAutoDoResult.setAPP_USERTEL(tel);
+//        appAutoDoResult.setAPP_NAME("菜鸟理财");
+//        Example<AppAutoDoResult> example = Example.of(appAutoDoResult);
+//        appAutoDoResult = appAutoDoResultRepository.findOne(example);
+//
+//        cnUser cnUser = new cnUser();
+//        cnUser.setTelephone(appAutoDoResult.getAPP_USERTEL());
+//        cnUser.setPassword(appAutoDoResult.getAPP_USERPASSWORD());
+//        cnUser.setDeviceID(appAutoDoResult.getDEVICE_ID());
+//        cnUser.setCnuserID(appAutoDoResult.getAPP_USERID());
+//        cnUser.setUser_agent(appAutoDoResult.getUSER_AGENT());
+//        cnUser.setScore(appAutoDoResult.getAPP_USERSCORE());
+//        cnUser.setNote(appAutoDoResult.getNOTE());
+//        cnUser.setChargeMoney(appAutoDoResult.getCHARGE_MONEY());
+//        cnUser.setChargeTel(tel);
+//
+//        CnRecommendFlow cnRecommendFlow = new CnRecommendFlow();
+//        String result = cnRecommendFlow.autoDo(cnUser,code,yzm);
+//
+//        return result;
+//    }
 
     @RequestMapping(value = "/referer", method = RequestMethod.GET)
     public String login() {
@@ -186,8 +210,7 @@ public class Charge {
         return us;
     }
 
-    @Autowired
-    OrderService orderService;
+
     @RequestMapping(method = RequestMethod.GET,value = "/list/{statu}")
     public List<Order> getOrderByChargeStatu(@PathVariable Integer statu){
         return orderService.listOrder(statu);

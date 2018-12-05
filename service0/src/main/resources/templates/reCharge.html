@@ -67,7 +67,7 @@
     	<option value=1>全部</option>
     	<option value=2>待充值</option>
     	<option value=3>待付款</option>
-    	<option value=4>已充值且付清</option>
+    	<!--<option value=4>已充值且付清</option>-->
 	<option value=5>处理中</option>
     </select>
     <br/>
@@ -117,17 +117,17 @@
         clickToSelect: true,
         cache : false,
         columns: [  
-        	{field:"ID",title:"id",align:"center",width:12,edit:{required:true,type:'text' }},
+        	{field:"id",title:"id",align:"center",width:12,edit:{required:true,type:'text' }},
         	{field:"OP",title:"操作",align:"center",width:12,
         		formatter: function (value, row, index) {
-                    return '<button class="btn btn-primary btn-sm" onclick="getAccount(\'' + row.TEL + '\')">获取</button><button class="btn btn-primary btn-sm" onclick="confirm(\'' +row.ID+'\',\''+ row.TEL + '\')">确认</button><br><br>'+
-							'<button class="btn btn-primary btn-sm" id="charge'+row.ID+'" onclick="charge(\'' + row.ID +'\',\''+ row.TEL +'\',\''+row.LAST_CHARGE_TIME+ '\')">充值</button><br><br><button class="btn btn-primary btn-sm" id="flush'+row.ID+'" onclick="flush(\'' + row.ID +'\',\''+ row.LAST_CHARGE_ACCOUNT +'\',\''+row.LAST_CHARGE_TIME +'\')">刷新</button>';
+                    return '<button class="btn btn-primary btn-sm" onclick="getAccount(\'' + row.tel + '\')">获取</button><button class="btn btn-primary btn-sm" onclick="confirm(\'' +row.ID+'\',\''+ row.TEL + '\')">确认</button><br><br>'+
+							'<button class="btn btn-primary btn-sm" id="charge'+row.id+'" onclick="charge(\'' + row.id +'\',\''+ row.tel +'\',\''+row.lastChargeTime+ '\')">充值</button><br><br><button class="btn btn-primary btn-sm" id="flush'+row.id+'" onclick="flush(\'' + row.id +'\',\''+ row.lastChargeAccount +'\',\''+row.lastChargeTime +'\')">刷新</button>';
         		}
         	},
-            {field:"TEL",title:"充值手机号",align:"center",width:12,edit:{required:true,type:'text' }},  
-            {field:"RECHARGE",title:"充值金额",align:"center",width:12,edit:{type:'text' }},  
-            {field:"CHARGED",title:"已充值金额",align:"center",width:12,edit:{type:'text' }},
-            {field:"LAST_CHARGE_STATU",title:"最后充值状态",align:"center",width:12,formatter:function (value, row, index) {
+            {field:"tel",title:"充值手机号",align:"center",width:12,edit:{required:true,type:'text' }},
+            {field:"recharge",title:"充值金额",align:"center",width:12,edit:{type:'text' }},
+            {field:"charged",title:"已充值金额",align:"center",width:12,edit:{type:'text' }},
+            {field:"lastChargeStatu",title:"最后充值状态",align:"center",width:12,formatter:function (value, row, index) {
 					if(value==0){
 					    return "处理中";
 					}else if(value==1){
@@ -136,21 +136,21 @@
 					    return "异常";
 					}
                 }},
-            {field:"RECEIVE",title:"已收款",align:"center",width:12,editable: {
+            {field:"receive",title:"已收款",align:"center",width:12,editable: {
                 type: 'text',
                 title: '入参值'
             }},
-            {field:"DISCOUNT",title:"折扣",align:"center",width:12},
-            {field:"NOTE",title:"使用充值账户",align:"center",width:12
+            {field:"discount",title:"折扣",align:"center",width:12},
+            {field:"note",title:"使用充值账户",align:"center",width:12
             	/* ,editable: {
                 type: 'text',
                 title: '入参值'
             	} */
             },
-            {field:"REFERRER",title:"推荐人",align:"center",width:42},
-            {field:"LAST_CHARGE_ACCOUNT",title:"最后充值账号",align:"center",width:12},
-            {field:"LAST_CHARGE_PASS",title:"充值账号密码",align:"center",width:12},
-            {field:"LAST_CHARGE_TIME",title:"最后充值时间",align:"center",width:12}
+            {field:"referrer",title:"推荐人",align:"center",width:42},
+            {field:"lastchargeaccount",title:"最后充值账号",align:"center",width:12},
+            {field:"lastchargepass",title:"充值账号密码",align:"center",width:12},
+            {field:"lastchargetime",title:"最后充值时间",align:"center",width:12}
         ],
         onEditableHidden: function(field, row, $el, reason) { // 当编辑状态被隐藏时触发
             if(reason === 'save') {
@@ -182,13 +182,14 @@
 	function loadData(){
 		var statu = $("#statu").val();
 		$.ajax({
-			url: "/Service/data",
+			//url: "/Service/data",
+			url: "/charge/list/"+statu,
 			cache: false,
-			type:"post",
-			data: {
+			type:"get",
+			/*data: {
 				proc: "get_data",
 				para:"['get_chargeList','" + statu+ "']"
-			},
+			},*/
 			dataType: "json",
 			async:false,
 			success: function(data) {
@@ -320,7 +321,7 @@
 
 		//充值
 		function charge(id,tel,time){
-           // $('#charge').attr("disabled","true");
+            $('#charge'+id).attr("disabled","true");
             var date = new Date();
             var year = date.getFullYear();
             var month = date.getMonth()+1;
@@ -335,24 +336,34 @@
                 return;
             }
             var faceValue = $("#faceValue").val();
-            // $.ajax({
-			// 	url:"http://www.cqdehua.cn:8081/charge/"+id+"/"+tel+"/"+faceValue,
-			// 	type:"get",
-			// 	dataType:"jsonp",
-			// 	success:function (data) {
-			// 		alert(data.MSG);
-             //        loadData();
-             //    }
-			// })
-            window.open("http://www.cqdehua.cn:8081/charge/"+id+"/"+tel+"/"+faceValue);
-            loadData();
+             $.ajax({
+			 	url:"/charge/"+id+"/"+tel+"/"+faceValue,
+			 	type:"get",
+			 	dataType:"jsonp",
+			 	async:false,
+			 	success:function (data) {
+			 		alert(data.MSG);
+                     loadData();
+                 }
+			 })
+           // window.open("http://www.cqdehua.cn:8081/charge/"+id+"/"+tel+"/"+faceValue);
+            //loadData();
 		}
 
 		//刷新
         function flush(id,tel,time){
-             
-            window.open("http://www.cqdehua.cn:8081/charge/statu/"+id+"/"+tel);
-            loadData();
+             $.ajax({
+			 	url:"/charge/charge/"+id+"/"+tel,
+			 	type:"get",
+			 	dataType:"jsonp",
+			 	async:false,
+			 	success:function (data) {
+			 		alert(data.MSG);
+                     loadData();
+                 }
+			 })
+           // window.open("http://www.cqdehua.cn:8081/charge/statu/"+id+"/"+tel);
+           // loadData();
         }
 
 

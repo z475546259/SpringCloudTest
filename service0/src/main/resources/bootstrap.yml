@@ -24,6 +24,11 @@ spring:
           profile: dev
           label: master
 
+# 打印sql
+logging:
+  level:
+    com.zzq.service0.mapper: DEBUG
+
 
 
 ##spring.datasource.driver-class-name: oracle.jdbc.driver.OracleDriver

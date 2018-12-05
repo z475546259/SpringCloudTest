@@ -16,6 +16,8 @@ public class CnChargeFlow {
 	public String chargeTel;
 	public Integer chageValue;
 
+
+
 	public CnChargeFlow(String chargeTel, Integer chageValue) {
 		this.chargeTel = chargeTel;
 		this.chageValue = chageValue;

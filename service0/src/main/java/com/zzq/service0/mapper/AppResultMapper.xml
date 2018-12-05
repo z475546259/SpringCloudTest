@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzq.service0.mapper.AppResultMapper">
+  <resultMap id="BaseResultMap" type="com.zzq.service0.entities.AppResult">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="APP_NAME" jdbcType="VARCHAR" property="appName" />
+    <result column="APP_USERSCORE" jdbcType="INTEGER" property="appUserscore" />
+    <result column="APP_USERTEL" jdbcType="VARCHAR" property="appUsertel" />
+    <result column="APP_USEREMAIL" jdbcType="VARCHAR" property="appUseremail" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="CHARGE_MONEY" jdbcType="INTEGER" property="chargeMoney" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="APP_USERID" jdbcType="VARCHAR" property="appUserid" />
+    <result column="APP_USERNAME" jdbcType="VARCHAR" property="appUsername" />
+    <result column="IS_DEL" jdbcType="BIT" property="isDel" />
+    <result column="APP_USERPASSWORD" jdbcType="VARCHAR" property="appUserpassword" />
+    <result column="DEVICE_ID" jdbcType="VARCHAR" property="deviceId" />
+    <result column="USER_AGENT" jdbcType="VARCHAR" property="userAgent" />
+    <result column="IS_GENERATED" jdbcType="TINYINT" property="isGenerated" />
+    <result column="EARN" jdbcType="DECIMAL" property="earn" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="TEMP" jdbcType="VARCHAR" property="temp" />
+    <result column="CODE_MINE" jdbcType="VARCHAR" property="codeMine" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, APP_NAME, APP_USERSCORE, APP_USERTEL, APP_USEREMAIL, PASSWORD, CHARGE_MONEY, 
+    NOTE, UPDATE_TIME, APP_USERID, APP_USERNAME, IS_DEL, APP_USERPASSWORD, DEVICE_ID, 
+    USER_AGENT, IS_GENERATED, EARN, CREATE_TIME, TEMP, CODE_MINE
+  </sql>
+  <select id="selectByExample" parameterType="com.zzq.service0.entities.AppResultExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from app_autodo_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_autodo_result
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from app_autodo_result
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zzq.service0.entities.AppResultExample">
+    delete from app_autodo_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zzq.service0.entities.AppResult">
+    insert into app_autodo_result (ID, APP_NAME, APP_USERSCORE, 
+      APP_USERTEL, APP_USEREMAIL, PASSWORD, 
+      CHARGE_MONEY, NOTE, UPDATE_TIME, 
+      APP_USERID, APP_USERNAME, IS_DEL, 
+      APP_USERPASSWORD, DEVICE_ID, USER_AGENT, 
+      IS_GENERATED, EARN, CREATE_TIME, 
+      TEMP, CODE_MINE)
+    values (#{id,jdbcType=INTEGER}, #{appName,jdbcType=VARCHAR}, #{appUserscore,jdbcType=INTEGER}, 
+      #{appUsertel,jdbcType=VARCHAR}, #{appUseremail,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{chargeMoney,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{appUserid,jdbcType=VARCHAR}, #{appUsername,jdbcType=VARCHAR}, #{isDel,jdbcType=BIT}, 
+      #{appUserpassword,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, 
+      #{isGenerated,jdbcType=TINYINT}, #{earn,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{temp,jdbcType=VARCHAR}, #{codeMine,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zzq.service0.entities.AppResult">
+    insert into app_autodo_result
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="appName != null">
+        APP_NAME,
+      </if>
+      <if test="appUserscore != null">
+        APP_USERSCORE,
+      </if>
+      <if test="appUsertel != null">
+        APP_USERTEL,
+      </if>
+      <if test="appUseremail != null">
+        APP_USEREMAIL,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="chargeMoney != null">
+        CHARGE_MONEY,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="appUserid != null">
+        APP_USERID,
+      </if>
+      <if test="appUsername != null">
+        APP_USERNAME,
+      </if>
+      <if test="isDel != null">
+        IS_DEL,
+      </if>
+      <if test="appUserpassword != null">
+        APP_USERPASSWORD,
+      </if>
+      <if test="deviceId != null">
+        DEVICE_ID,
+      </if>
+      <if test="userAgent != null">
+        USER_AGENT,
+      </if>
+      <if test="isGenerated != null">
+        IS_GENERATED,
+      </if>
+      <if test="earn != null">
+        EARN,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="temp != null">
+        TEMP,
+      </if>
+      <if test="codeMine != null">
+        CODE_MINE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="appName != null">
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appUserscore != null">
+        #{appUserscore,jdbcType=INTEGER},
+      </if>
+      <if test="appUsertel != null">
+        #{appUsertel,jdbcType=VARCHAR},
+      </if>
+      <if test="appUseremail != null">
+        #{appUseremail,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMoney != null">
+        #{chargeMoney,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appUserid != null">
+        #{appUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="appUsername != null">
+        #{appUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="appUserpassword != null">
+        #{appUserpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="userAgent != null">
+        #{userAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="isGenerated != null">
+        #{isGenerated,jdbcType=TINYINT},
+      </if>
+      <if test="earn != null">
+        #{earn,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp != null">
+        #{temp,jdbcType=VARCHAR},
+      </if>
+      <if test="codeMine != null">
+        #{codeMine,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zzq.service0.entities.AppResultExample" resultType="java.lang.Long">
+    select count(*) from app_autodo_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update app_autodo_result
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.appName != null">
+        APP_NAME = #{record.appName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appUserscore != null">
+        APP_USERSCORE = #{record.appUserscore,jdbcType=INTEGER},
+      </if>
+      <if test="record.appUsertel != null">
+        APP_USERTEL = #{record.appUsertel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appUseremail != null">
+        APP_USEREMAIL = #{record.appUseremail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        PASSWORD = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chargeMoney != null">
+        CHARGE_MONEY = #{record.chargeMoney,jdbcType=INTEGER},
+      </if>
+      <if test="record.note != null">
+        NOTE = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.appUserid != null">
+        APP_USERID = #{record.appUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appUsername != null">
+        APP_USERNAME = #{record.appUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDel != null">
+        IS_DEL = #{record.isDel,jdbcType=BIT},
+      </if>
+      <if test="record.appUserpassword != null">
+        APP_USERPASSWORD = #{record.appUserpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceId != null">
+        DEVICE_ID = #{record.deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAgent != null">
+        USER_AGENT = #{record.userAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isGenerated != null">
+        IS_GENERATED = #{record.isGenerated,jdbcType=TINYINT},
+      </if>
+      <if test="record.earn != null">
+        EARN = #{record.earn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.temp != null">
+        TEMP = #{record.temp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.codeMine != null">
+        CODE_MINE = #{record.codeMine,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update app_autodo_result
+    set ID = #{record.id,jdbcType=INTEGER},
+      APP_NAME = #{record.appName,jdbcType=VARCHAR},
+      APP_USERSCORE = #{record.appUserscore,jdbcType=INTEGER},
+      APP_USERTEL = #{record.appUsertel,jdbcType=VARCHAR},
+      APP_USEREMAIL = #{record.appUseremail,jdbcType=VARCHAR},
+      PASSWORD = #{record.password,jdbcType=VARCHAR},
+      CHARGE_MONEY = #{record.chargeMoney,jdbcType=INTEGER},
+      NOTE = #{record.note,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      APP_USERID = #{record.appUserid,jdbcType=VARCHAR},
+      APP_USERNAME = #{record.appUsername,jdbcType=VARCHAR},
+      IS_DEL = #{record.isDel,jdbcType=BIT},
+      APP_USERPASSWORD = #{record.appUserpassword,jdbcType=VARCHAR},
+      DEVICE_ID = #{record.deviceId,jdbcType=VARCHAR},
+      USER_AGENT = #{record.userAgent,jdbcType=VARCHAR},
+      IS_GENERATED = #{record.isGenerated,jdbcType=TINYINT},
+      EARN = #{record.earn,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      TEMP = #{record.temp,jdbcType=VARCHAR},
+      CODE_MINE = #{record.codeMine,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zzq.service0.entities.AppResult">
+    update app_autodo_result
+    <set>
+      <if test="appName != null">
+        APP_NAME = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appUserscore != null">
+        APP_USERSCORE = #{appUserscore,jdbcType=INTEGER},
+      </if>
+      <if test="appUsertel != null">
+        APP_USERTEL = #{appUsertel,jdbcType=VARCHAR},
+      </if>
+      <if test="appUseremail != null">
+        APP_USEREMAIL = #{appUseremail,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMoney != null">
+        CHARGE_MONEY = #{chargeMoney,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appUserid != null">
+        APP_USERID = #{appUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="appUsername != null">
+        APP_USERNAME = #{appUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        IS_DEL = #{isDel,jdbcType=BIT},
+      </if>
+      <if test="appUserpassword != null">
+        APP_USERPASSWORD = #{appUserpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        DEVICE_ID = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="userAgent != null">
+        USER_AGENT = #{userAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="isGenerated != null">
+        IS_GENERATED = #{isGenerated,jdbcType=TINYINT},
+      </if>
+      <if test="earn != null">
+        EARN = #{earn,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temp != null">
+        TEMP = #{temp,jdbcType=VARCHAR},
+      </if>
+      <if test="codeMine != null">
+        CODE_MINE = #{codeMine,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zzq.service0.entities.AppResult">
+    update app_autodo_result
+    set APP_NAME = #{appName,jdbcType=VARCHAR},
+      APP_USERSCORE = #{appUserscore,jdbcType=INTEGER},
+      APP_USERTEL = #{appUsertel,jdbcType=VARCHAR},
+      APP_USEREMAIL = #{appUseremail,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      CHARGE_MONEY = #{chargeMoney,jdbcType=INTEGER},
+      NOTE = #{note,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      APP_USERID = #{appUserid,jdbcType=VARCHAR},
+      APP_USERNAME = #{appUsername,jdbcType=VARCHAR},
+      IS_DEL = #{isDel,jdbcType=BIT},
+      APP_USERPASSWORD = #{appUserpassword,jdbcType=VARCHAR},
+      DEVICE_ID = #{deviceId,jdbcType=VARCHAR},
+      USER_AGENT = #{userAgent,jdbcType=VARCHAR},
+      IS_GENERATED = #{isGenerated,jdbcType=TINYINT},
+      EARN = #{earn,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      TEMP = #{temp,jdbcType=VARCHAR},
+      CODE_MINE = #{codeMine,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
