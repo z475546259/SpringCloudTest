@@ -15,6 +15,7 @@
         <module>configclient</module>
         <module>timingtask</module>
         <module>webtest</module>
+        <module>testweb</module>
     </modules>
 
 
