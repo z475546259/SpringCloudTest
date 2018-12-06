@@ -143,8 +143,8 @@
         	{field:"id",title:"id",align:"center",width:12,edit:{required:true,type:'text' }},
         	{field:"OP",title:"操作",align:"center",width:12,
         		formatter: function (value, row, index) {
-                    return '<button class="btn btn-primary btn-sm" onclick="getAccount(\'' + row.tel + '\')">获取</button><button class="btn btn-primary btn-sm" onclick="confirm(\'' +row.ID+'\',\''+ row.TEL + '\')">确认</button><br><br>'+
-							'<button class="btn btn-primary btn-sm" id="charge'+row.id+'" onclick="charge(\'' + row.id +'\',\''+ row.tel +'\',\''+row.lastChargeTime+ '\')">充值</button><br><br><button class="btn btn-primary btn-sm" id="flush'+row.id+'" onclick="flush(\'' + row.id +'\',\''+ row.lastChargeAccount +'\',\''+row.lastChargeTime +'\')">刷新</button>';
+                    //return '<button class="btn btn-primary btn-sm" onclick="getAccount(\'' + row.tel + '\')">获取</button><button class="btn btn-primary btn-sm" onclick="confirm(\'' +row.ID+'\',\''+ row.TEL + '\')">确认</button><br><br>'+
+					return		'<button class="btn btn-primary btn-sm" id="charge'+row.id+'" onclick="charge(\'' + row.id +'\',\''+ row.tel +'\',\''+row.lastChargeTime+ '\')">充值</button><br><br><button class="btn btn-primary btn-sm" id="flush'+row.id+'" onclick="flush(\'' + row.id +'\',\''+ row.lastChargeAccount +'\',\''+row.lastChargeTime +'\')">刷新</button>';
         		}
         	},
             {field:"tel",title:"充值手机号",align:"center",width:12,edit:{required:true,type:'text' }},
@@ -184,17 +184,18 @@
         onEditableSave: function (field, row, oldValue, $el) {
               $("#chargeList").bootstrapTable('updateRow', {index: row.rowId, row: row});
               $.ajax({
-      			url: "/Service/data",
+      			url: "/charge/updateReceive",
       			cache: false,
       			type:"post",
       			data: {
-      				proc: "handle_charge_order",
-      				para:"['"+row.ID+"','"+row.TEL+"','"+row.RECHARGE+"','"+row.CHARGED+"','"+row.RECEIVE+"','"+row.DISCOUNT+"','"+row.NOTE+"','"+row.REFERRER+"']"
+      				"orderId":row.id,
+      				"receive":row.receive
+      				//,row.TEL+"','"+row.RECHARGE+"','"+row.CHARGED+"','"+row.RECEIVE+"','"+row.DISCOUNT+"','"+row.NOTE+"','"+row.REFERRER+"']"
       			},
       			dataType: "json",
       			async:false,
       			success: function(data) {
-      				alert(data[0].MSG)
+      				alert(data.msg)
       			}
       		});
         }
@@ -280,15 +281,16 @@
       			// 	para:"['"+0+"','"+tel+"','"+recharge+"','"+0+"','"+0+"','"+discount+"','','"+referrer+"']"
       			// },
                 data: {
-                    tel:tel,
-                    recharge:recharge,
-                    discount:discount,
-                    referrer:referrer
+                    "tel":tel,
+                    "recharge":recharge,
+                    "discount":discount,
+                    "referrer":referrer
                 },
       			dataType: "json",
+      			//contentType: "application/json",
       			async:false,
       			success: function(data) {
-      				alert(data[0].MSG);
+      				alert(data.msg);
       				loadData();
       				hideDiv();
       			}
@@ -365,7 +367,7 @@
              $.ajax({
 			 	url:"/charge/"+id+"/"+tel+"/"+faceValue,
 			 	type:"get",
-			 	dataType:"jsonp",
+			 	dataType:"json",
 			 	async:false,
 			 	success:function (data) {
 			 		alert(data.MSG);
@@ -381,7 +383,7 @@
              $.ajax({
 			 	url:"/charge/statu/"+id+"/"+tel,
 			 	type:"get",
-			 	dataType:"jsonp",
+			 	dataType:"json",
 			 	async:false,
 			 	success:function (data) {
 			 		alert(data.MSG);

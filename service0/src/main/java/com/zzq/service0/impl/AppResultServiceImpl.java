@@ -49,7 +49,9 @@ public class AppResultServiceImpl implements AppResultService {
         AppResult appResult =  appResultMapper.selectByExample(appResultExample).get(0);
         appResult.setAppUserscore(cnUser.getScore());
         appResult.setChargeMoney(appResult.getChargeMoney()+cnUser.getChargeValue());
-        appResult.setNote(appResult.getNote()+","+cnUser.getChargeTel());
+        if(!appResult.getNote().contains(cnUser.getChargeTel())){
+            appResult.setNote(appResult.getNote()+","+cnUser.getChargeTel());
+        }
         int i = appResultMapper.updateByPrimaryKeySelective(appResult);
         if(i==0){
             System.out.println("更新刷分结果失败");

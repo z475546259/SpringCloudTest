@@ -396,6 +396,7 @@
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       RECEIVE = #{record.receive,jdbcType=DECIMAL},
       DISCOUNT = #{record.discount,jdbcType=DECIMAL},
+      NOTE = #{record.note,jdbcType=VARCHAR},
       REFERRER = #{record.referrer,jdbcType=VARCHAR},
       LAST_CHARGE_TIME = #{record.lastChargeTime,jdbcType=TIMESTAMP},
       LAST_CHARGE_ACCOUNT = #{record.lastChargeAccount,jdbcType=VARCHAR},
@@ -411,5 +412,10 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateReceive" parameterType="map">
+    update app_charge_order
+     set RECEIVE = #{record.receive,jdbcType=DECIMAL}
+    where ID = #{record.id,jdbcType=DECIMAL}
   </update>
 </mapper>

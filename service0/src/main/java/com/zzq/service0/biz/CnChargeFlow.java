@@ -37,7 +37,7 @@ public class CnChargeFlow {
 		CnChargeFlow flow =  new CnChargeFlow("15923584508",50);
 //		flow.autoDo(zzq2);
 	}
-	public void autoDo(cnUser user) throws Exception {
+	public cnUser autoDo(cnUser user) throws Exception {
 		if(user.getDeviceID()==null){
 			user.setDeviceID(Utils.randomHexString(16));
 		}
@@ -112,6 +112,9 @@ public class CnChargeFlow {
 		para.put("num","1");
 		String chargeResult = httpUtil.doPost("http://app.cainiaolc.com/coin/exchange", para, "utf-8");
 		System.out.println("充值结果："+chargeResult);
+		if(chargeResult.contains("积分不足")){
+			throw new Exception(user.getTelephone()+"积分不足");
+		}
 
 		//检查充值状态
 //		String chargeStatu = httpUtil.doGet("http://app.cainiaolc.com/coin/record?page=0&perpage=1", "utf-8");
@@ -133,7 +136,8 @@ public class CnChargeFlow {
 
 //		operateOracle.updateAppData("菜鸟理财",user.getUser_name(),user.getTelephone(),"",user.getPassword(),score,user.getCnuserID());
 //		operateOracle.updateAppData("菜鸟理财",user);
-		appResultService.updateResult(user);
+		return user;
+
 	}
 	public void getIDs(String api_homeData,List<String> ids) {
 		JSONObject json1 = JSONObject.parseObject(api_homeData);

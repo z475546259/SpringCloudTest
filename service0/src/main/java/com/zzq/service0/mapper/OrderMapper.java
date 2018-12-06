@@ -24,4 +24,5 @@ public interface OrderMapper {
     int updateByExampleWithBLOBs(@Param("record") Order record, @Param("example") OrderExample example);
 
     int updateByExample(@Param("record") Order record, @Param("example") OrderExample example);
+    int updateReceive(@Param("record") Order record);
 }

@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService{
             orders =orderMapper.selectByExample(orderExample);
         }else if(staut==5){//处理中
             orderExample.setOrderByClause("id desc");
-            orderExample.createCriteria().andLastChargeStatuEqualTo(new BigDecimal(0)).andUpdatetimeIsNotNull();
+            orderExample.createCriteria().andLastChargeStatuEqualTo(new BigDecimal(0)).andUpdateTimeIsNotNull();
             orders =orderMapper.selectByExample(orderExample);
         }else if(staut==2){//待充值
             TimeZone curTimeZone = TimeZone.getTimeZone("GMT+8");
@@ -57,7 +57,7 @@ public class OrderServiceImpl implements OrderService{
             }
         }
 
-        orderExample.createCriteria().andLastchargestatuEqualTo(staut);
+       // orderExample.createCriteria().andLastchargestatuEqualTo(staut);
 
         return orders;
     }
@@ -95,5 +95,28 @@ public class OrderServiceImpl implements OrderService{
         }else {
             System.out.println("更新充值订单成功");
         }
+    }
+
+    @Override
+    public Boolean addOrder(String tel, BigDecimal recharge, BigDecimal discount, String referer) {
+        Order order = new Order();
+        order.setTel(tel);
+        order.setRecharge(recharge);
+        order.setDiscount(discount);
+        order.setReferrer(referer);
+        order.setLastchargestatu(0);
+        order.setCharged(new BigDecimal(0));
+        order.setReceive(new BigDecimal(0));
+        int i = orderMapper.insert(order);
+        return i==1?true:false;
+    }
+
+    @Override
+    public Boolean updateOrderReceive(BigDecimal orderId, BigDecimal receive) {
+        Order order = new Order();
+        order.setId(orderId);
+        order.setReceive(receive);
+        int i = orderMapper.updateReceive(order);
+        return i==i?true:false;
     }
 }
