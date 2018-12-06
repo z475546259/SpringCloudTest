@@ -4,19 +4,22 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zzq.service0.entities.cnUser;
 import com.zzq.service0.enums.ChargeValueEnum;
+import com.zzq.service0.mapper.AppResultMapper;
+import com.zzq.service0.service.AppResultService;
 import com.zzq.service0.util.HttpClientUtil;
 import com.zzq.service0.util.OperateOracle;
 import com.zzq.service0.util.ProxyUtil;
 import com.zzq.service0.util.Utils;
 import org.apache.http.HttpHost;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
 public class CnChargeFlow {
 	public String chargeTel;
 	public Integer chageValue;
-
-
+	@Autowired
+	AppResultService appResultService;
 
 	public CnChargeFlow(String chargeTel, Integer chageValue) {
 		this.chargeTel = chargeTel;
@@ -126,9 +129,11 @@ public class CnChargeFlow {
 		System.out.println("用"+user.getTelephone()+"给"+this.chargeTel+"充值结束，最后的结果==="+(score-6200));
 //		user.setEarn(score-user.getScore());
 		user.setScore(score-6200);
-		OperateOracle operateOracle = new OperateOracle();
+//		OperateOracle operateOracle = new OperateOracle();
+
 //		operateOracle.updateAppData("菜鸟理财",user.getUser_name(),user.getTelephone(),"",user.getPassword(),score,user.getCnuserID());
-		operateOracle.updateAppData("菜鸟理财",user);
+//		operateOracle.updateAppData("菜鸟理财",user);
+		appResultService.updateResult(user);
 	}
 	public void getIDs(String api_homeData,List<String> ids) {
 		JSONObject json1 = JSONObject.parseObject(api_homeData);

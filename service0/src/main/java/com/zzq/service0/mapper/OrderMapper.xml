@@ -10,6 +10,7 @@
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="RECEIVE" jdbcType="DECIMAL" property="receive" />
     <result column="DISCOUNT" jdbcType="DECIMAL" property="discount" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
     <result column="REFERRER" jdbcType="VARCHAR" property="referrer" />
     <result column="LAST_CHARGE_TIME" jdbcType="TIMESTAMP" property="lastChargeTime" />
     <result column="LAST_CHARGE_ACCOUNT" jdbcType="VARCHAR" property="lastChargeAccount" />
@@ -85,7 +86,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, TEL, RECHARGE, CHARGED, CREATE_TIME, UPDATE_TIME, RECEIVE, DISCOUNT, REFERRER, 
+    ID, TEL, RECHARGE, CHARGED, CREATE_TIME, UPDATE_TIME, RECEIVE, DISCOUNT,NOTE, REFERRER,
     LAST_CHARGE_TIME, LAST_CHARGE_ACCOUNT, LAST_CHARGE_PASS, LAST_CHARGE_STATU, createtime, 
     lastchargeaccount, lastchargepass, lastchargestatu, lastchargetime, regerer, updatetime
   </sql>

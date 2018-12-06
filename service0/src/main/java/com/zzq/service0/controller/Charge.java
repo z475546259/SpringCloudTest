@@ -216,4 +216,9 @@ public class Charge {
         return orderService.listOrder(statu);
     }
 
+    @RequestMapping(method = RequestMethod.POST,value = "/addOrder")
+    public String addOder(@RequestBody JSONObject jsonParam){
+
+        return jsonParam.get("tel")+","+jsonParam.get("referrer");
+    }
 }
