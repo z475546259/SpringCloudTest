@@ -3,6 +3,9 @@ package com.zzq.service0;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
 
@@ -15,7 +18,7 @@ import javax.sql.DataSource;
 */
 //@SpringBootApplication(scanBasePackages = "com.zzq.service0",exclude = DataSourceAutoConfiguration.class)
 @SpringBootApplication(scanBasePackages = "com.zzq.service0")
-//@EnableEurekaClient
+@EnableEurekaClient
 //@EnableWebMvc
 @MapperScan("com.zzq.service0.mapper")
 public class Service0Application {
