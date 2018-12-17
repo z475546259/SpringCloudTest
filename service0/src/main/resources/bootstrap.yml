@@ -28,9 +28,7 @@ spring:
 logging:
   level:
     com.zzq.service0.mapper: DEBUG
-
-
-
+#  config: classpath:log4j.xml
 ##spring.datasource.driver-class-name: oracle.jdbc.driver.OracleDriver
 #spring.datasource.driver-class-name: com.mysql.cj.jdbc.Driver
 ##spring.datasource.url: jdbc:oracle:thin:@120.76.132.101:1521:orcl2

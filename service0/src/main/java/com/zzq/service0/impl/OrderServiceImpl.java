@@ -25,7 +25,10 @@ public class OrderServiceImpl implements OrderService{
         OrderExample orderExample = new OrderExample();
         if(staut==1){//全部
             orderExample.setOrderByClause("id desc");
-            orders =orderMapper.selectByExample(orderExample);
+            List<Order> orders2 =orderMapper.selectByExample(orderExample);
+            for(int i=0;i<50;i++){
+                orders.add(orders2.get(i));
+            }
         }else if(staut==5){//处理中
             orderExample.setOrderByClause("id desc");
             orderExample.createCriteria().andLastChargeStatuEqualTo(new BigDecimal(0)).andUpdateTimeIsNotNull();
@@ -38,8 +41,8 @@ public class OrderServiceImpl implements OrderService{
             c.set(Calendar.MINUTE, 0);
             c.set(Calendar.SECOND, 0);
             Date z = c.getTime();
-            orderExample.createCriteria().andLastchargetimeLessThan(z);
-            orderExample.or(orderExample.createCriteria().andLastchargetimeIsNull());
+            orderExample.createCriteria().andLastChargeTimeLessThan(z);
+            orderExample.or(orderExample.createCriteria().andLastChargeTimeIsNull());
             List<Order> orders2 =orderMapper.selectByExample(orderExample);//查询出所有最后充值时间为空或者充值时间小于今天的订单
             //遍历找出 已充值金额小于充值金额的订单
             for (Order order:orders2) {

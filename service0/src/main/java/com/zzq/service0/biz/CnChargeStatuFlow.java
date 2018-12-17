@@ -8,10 +8,12 @@ import com.zzq.service0.util.HttpClientUtil;
 import com.zzq.service0.util.OperateOracle;
 import com.zzq.service0.util.ProxyUtil;
 import com.zzq.service0.util.Utils;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 
 public class CnChargeStatuFlow {
+	private static Logger logger = Logger.getLogger(CnChargeStatuFlow.class);
 
 	public CnChargeStatuFlow() {
 
@@ -50,7 +52,8 @@ public class CnChargeStatuFlow {
 //		httpUtil.setTarget(ProxyUtil.getHostFromAliYun());
 		//登录
 		String login_res = httpUtil.doPost("http://app.cainiaolc.com/user/login", para, "utf-8");
-		System.out.println("登录："+login_res);
+//		System.out.println("登录："+login_res);
+		logger.info(user.getTelephone()+"登录："+login_res);
 		String  cnUserID = JSONObject.parseObject(login_res).get("Data").toString();
 		httpUtil.setCnUserID(cnUserID);
 		user.setCnuserID(cnUserID);
@@ -81,10 +84,12 @@ public class CnChargeStatuFlow {
 		String chargeStatu = httpUtil.doGet("http://app.cainiaolc.com/coin/record?page=0&perpage=1", "utf-8");
 		JSONObject chargeStatuJson = JSONObject.parseObject(chargeStatu);
 		if(chargeStatuJson.getJSONArray("Data").getJSONObject(0).getInteger("status")==0){
-			System.out.println("充值处理中...");
+//			System.out.println("充值处理中...");
+			logger.info("充值处理中...");
 			return 0;
 		}else {
-			System.out.println("充值已处理");
+//			System.out.println("充值已处理");
+			logger.info("充值已处理");
 			return 1;
 		}
 

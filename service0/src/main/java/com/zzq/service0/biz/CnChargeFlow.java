@@ -11,11 +11,13 @@ import com.zzq.service0.util.OperateOracle;
 import com.zzq.service0.util.ProxyUtil;
 import com.zzq.service0.util.Utils;
 import org.apache.http.HttpHost;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
 public class CnChargeFlow {
+	private static Logger logger = Logger.getLogger(CnChargeFlow.class);
 	public String chargeTel;
 	public Integer chageValue;
 	@Autowired
@@ -65,7 +67,8 @@ public class CnChargeFlow {
 		httpUtil.setTarget(ProxyUtil.getHostFromDaiLiJingLing());
 		//登录
 		String login_res = httpUtil.doPost("http://app.cainiaolc.com/user/login", para, "utf-8");
-		System.out.println("登录："+login_res);
+//		System.out.println("登录："+login_res);
+		logger.info(user.getTelephone()+"登录："+login_res);
 		String  cnUserID = JSONObject.parseObject(login_res).get("Data").toString();
 		httpUtil.setCnUserID(cnUserID);
 		user.setCnuserID(cnUserID);
@@ -111,10 +114,16 @@ public class CnChargeFlow {
 		para.put("addr","");
 		para.put("num","1");
 		String chargeResult = httpUtil.doPost("http://app.cainiaolc.com/coin/exchange", para, "utf-8");
-		System.out.println("充值结果："+chargeResult);
+//		System.out.println("充值结果："+chargeResult);
+		logger.info("充值结果："+chargeResult);
 		if(chargeResult.contains("积分不足")){
 			throw new Exception(user.getTelephone()+"积分不足");
+		}else if(chargeResult.contains("暂")){
+			throw new Exception(user.getTelephone()+"暂无库存");
+		}else if(!chargeResult.contains("成功")){
+			throw new Exception(user.getTelephone()+"充值异常");
 		}
+
 
 		//检查充值状态
 //		String chargeStatu = httpUtil.doGet("http://app.cainiaolc.com/coin/record?page=0&perpage=1", "utf-8");
@@ -129,7 +138,8 @@ public class CnChargeFlow {
 //		JSONObject finaJson = JSONObject.parseObject(replayCommentresult);
 //		score = finaJson.getJSONObject("Data").getInteger("score");
 
-		System.out.println("用"+user.getTelephone()+"给"+this.chargeTel+"充值结束，最后的结果==="+(score-6200));
+//		System.out.println("用"+user.getTelephone()+"给"+this.chargeTel+"充值结束，最后的结果==="+(score-6200));
+		logger.info("用"+user.getTelephone()+"给"+this.chargeTel+"充值结束，最后的结果==="+(score-6200));
 //		user.setEarn(score-user.getScore());
 		user.setScore(score-6200);
 //		OperateOracle operateOracle = new OperateOracle();
